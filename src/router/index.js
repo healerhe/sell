@@ -16,7 +16,7 @@ const routes = [
   { path: '/goods', component: goods },
   {path: '/ratings', component: ratings},
   // 重定向
-  {path: '/', redirect: '/home'}
+  {path: '/', redirect: '/goods'}
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
