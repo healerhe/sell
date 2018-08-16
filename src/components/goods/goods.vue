@@ -30,7 +30,7 @@
                     <span v-show="food.oldPrice" class="old">￥{{food.oldPrice}}</span>
                   </div>
                   <div class="cartAdd-wrapper">
-                    <cartAdd :food="food"></cartAdd>
+                    <cartAdd :food="food" @increment="incrementTotal"></cartAdd>
                   </div>
                 </div>
               </li>
@@ -38,7 +38,7 @@
           </li>
         </ul>
       </div>
-      <shopCart :select-products="selectProducts" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopCart>
+      <shopCart :select-products="selectProducts" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ref="shopCart"></shopCart>
     </div>
 </template>
 
@@ -112,6 +112,15 @@
       });
     },
     methods: {
+      incrementTotal(target) {
+        /* 当点击“加号”按钮时，cartControl组件通过emit触发父组件goods中的increment方法，并将event.target对象传入，
+        increment方法将target传入shopCart子组件中的drop方法，
+        所以drop方法能获得用户点击按钮的元素，即能获取点击按钮的位置 */
+        /* 体验优化，异步执行下落动画 */
+        this.$nextTick(() => {
+          this.$refs.shopCart.drop(target);
+        });
+      },
       initBetterScroll() {
         this.menuScroll = new BetterScroll(this.$refs.menuWrapper, {
           click: true

@@ -19,7 +19,7 @@
           </div>
           <div v-if="seller.supports" class="support_count" @click="showDetail">
             <span class="count">{{seller.supports.length }}个</span>
-            <span class="icon-keyboard_arrow_right"></span>
+            <span class="icon"> > </span>
           </div>
         </div>
         <div class="bulletin-wrapper" @click="showDetail">
@@ -145,12 +145,10 @@
           .count
             vertical-align top
             font-size 10px
-          .icon-keyboard_arrow_right
+          .icon
             font-size 10px
             margin-left 4px
             line-height 24px
-          .icon-keyboard_arrow_right:before
-            content: "\3e"
     .bulletin-wrapper
       position relative
       background-color rgba(7,17,27,0.2)

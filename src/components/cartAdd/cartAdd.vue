@@ -38,7 +38,7 @@
           } else {
             this.food.count++;
           }
-          console.log(this.food.count);
+        this.$emit('increment', event.target);
       },
       decrease() {
         if (!event._constructed) { // 去掉自带的click事件点击，即pc端直接返回

@@ -86,7 +86,6 @@
         let hasDecimal = score % 1 !== 0;
         /* 向下取整 */
         let integer = Math.floor(score);
-        console.log(hasDecimal);
         /* push score的整数部分的星 */
         for (let i = 0; i < integer; i++) {
           result.push(CLS_ON);
