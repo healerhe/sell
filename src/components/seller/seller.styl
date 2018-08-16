@@ -1,0 +1,132 @@
+@import "../../common/stylus/mixin.styl"
+.seller
+  position absolute
+  top 175px
+  bottom 0px
+  left 0
+  width 100%
+  overflow hidden
+  .name-wrapper
+    margin 18px
+    width 100%
+    .name
+      font-size 14px
+      color rgb(7,17,27)
+      line-height 14px
+    .name-content
+      margin-top 8px
+      font-size 0
+      .star
+        display inline-block
+        vertical-align top
+        font-size 18px
+      .ratingCount
+        display inline-block
+        vertical-align top
+        margin-left 8px
+        font-size 10px
+        color rgb(77,85,93)
+        line-height 18px
+      .sell
+        display inline-block
+        vertical-align top
+        margin-left 12px
+        font-size 10px
+        color rgb(77,85,93)
+        line-height 18px
+  .line1
+    width 90%
+    background rgba(7,17,27,0.1)
+    height 1px
+    line-height 1px
+    margin 0 auto
+  .delivery-wrapper
+    margin 18px auto
+    display flex
+    .deliver-content
+      flex 1
+      border-right 1px solid rgba(7,17,27,0.1)
+      text-align center
+      .text
+        font-size 10px
+        color rgb(147,153,159)
+        line-height 10px
+        margin-bottom 4px
+      .number
+        font-size 24px
+        font-weight 200
+        color rgb(7,17,27)
+        line-height 24px
+        .yuan
+          font-size 10px
+          font-weight 200
+          color rgb(7,17,27)
+          line-height 10px
+  .bulletinAndDiscount
+    width 100%
+    .bulletin
+      margin 18px 18px 16px 18px
+      .title
+        font-size 14px
+        color rgb(7,17,27)
+        line-height 14px
+      .text
+        display inline-block
+        margin 8px 12px 0 12px
+        font-size 12px
+        color rgb(240,20,20)
+        line-height 24px
+    .supports
+      width 90%
+      margin 0 18px
+      .supports-item
+        padding 16px 12px
+        border-top 1px solid rgba(7,17,27,0.1)
+        .icon
+          display inline-block
+          width 16px
+          height 16px
+          vertical-align top
+          margin-right 6px
+          background-size 16px 16px
+          &.decrease
+            bg-image('decrease_4');
+          &.discount
+            bg-image('discount_4');
+          &.guarantee
+            bg-image('guarantee_4');
+          &.invoice
+            bg-image('invoice_4');
+          &.special
+            bg-image('special_4');
+        .text
+          line-height 16px
+          font-size 12px
+          color rgb(7,17,27)
+          margin-left 6px
+  .seller-realScene
+    width 100%
+    margin 18px
+    .title
+      font-size 14px
+      color rgb(7,17,27)
+      line-height 14px
+    .pics
+      margin-top 12px
+      .pic
+        display inline-block
+        margin-right 6px
+  .seller-information
+    width 100%
+    margin 18px
+    .infoUL
+      margin-top 12px
+      .infos
+        padding 16px 12px
+        border-top 1px solid rgba(7,17,27,0.1)
+        .text
+          line-height 16px
+          font-size 12px
+          color rgb(7,17,27)
+
+
