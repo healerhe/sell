@@ -44,6 +44,7 @@
 
 <style lang="stylus" rel="stylesheet">
   @import "goods.styl"
+  @import "../../common/stylus/icons.styl"
 </style>
 
 <script type="text/ecmascript-6">
