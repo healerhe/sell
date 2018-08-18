@@ -44,7 +44,6 @@
 
 <style lang="stylus" rel="stylesheet">
   @import "goods.styl"
-  @import "../../common/stylus/icons.styl"
 </style>
 
 <script type="text/ecmascript-6">
@@ -106,7 +105,12 @@
            就会出现无法滚动的现象。
             添加这个之后才能正确计算menuWrappe的高度 */
             this.$nextTick(() => {
-              this.initBetterScroll();
+              if (!this.scroll) {
+                this.initBetterScroll();
+              } else {
+                this.scroll.refresh();
+              }
+
               this.calculateHeight();
             });
         };
@@ -126,6 +130,7 @@
         this.menuScroll = new BetterScroll(this.$refs.menuWrapper, {
           click: true
         });
+        console.log(this.menuScroll);
         this.foodsScroll = new BetterScroll(this.$refs.foodsWrapper, {
           click: true,
           /* 希望foodsScroll在滚动时能实时告诉我们位置，探帧 */

@@ -66,7 +66,6 @@
         if (!event._constructed) { // 去掉自带的click事件点击，即pc端直接返回
           return;
         }
-        alert(this.selectType);
         this.selectType = selectType;
         this.$emit('increment', selectType);
       },

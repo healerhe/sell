@@ -1,8 +1,10 @@
 <template>
-    <div class="orderDetail">
+    <div class="orderDetail" ref="orderDetail">
         <div class="orderDetail-content">
-          <span class="icon-返回"></span>
-          <h1 class="title">{{classMap[orderItem.orderState]}}</h1>
+          <div class="title">
+            <span class="icon-返回"></span>
+            <h1 class="text">{{classMap[orderItem.orderState]}}</h1>
+          </div>
           <div class="order-item-detail">
             <router-link to="/seller">
               <h2 class="seller-name">{{orderItem.sellername}}</h2>
@@ -11,16 +13,16 @@
             <ul class="orderUL">
               <li v-for="item in orderItem.orderList" class="order-item" v-bind:key="item.index" >
                 <div class="icon">
-                  <img width="57" :src="item.icon"/>111
+                  <img width="57" :src="item.icon" height="57"/>
                 </div>
                 <div class="content">
-                  <h2 class="name">111{{item.foodname}}</h2>
+                  <h2 class="name">{{item.foodname}}</h2>
                   <div class="extra">
-                    <span>X111{{item.count}}</span>
+                    <span>X{{item.count}}</span>
                   </div>
                   <div class="price">
-                    <span class="new">￥111{{item.price}}</span>
-                    <span v-show="item.oldPrice" class="old">￥11{{item.oldPrice}}</span>
+                    <span class="new">￥{{item.price}}</span>
+                    <span v-show="item.oldPrice" class="old">￥{{item.oldPrice}}</span>
                   </div>
                 </div>
               </li>
@@ -37,7 +39,7 @@
             </div>
             <div class="total-wrapper">
               <span class="text">已优惠</span><span class="special-price">￥3.35</span>
-              <span class="text">合计</span><span class="total-price">￥50</span>
+              <span class="text">合计</span><span class="total-price">￥{{totalPrice}}</span>
             </div>
           </div>
           <div class="delivery-information">
@@ -83,6 +85,7 @@
 </style>
 
 <script>
+  import BetterScroll from 'better-scroll';
   import split from 'components/split/split.vue';
   const SUCCESS = 0;
   export default{
@@ -104,8 +107,27 @@
         response = response.body;
         if (response.errno === SUCCESS) {
           this.orderItem = response.data[0];
+          this.$nextTick(() => {
+            if (!this.scroll) {
+              this.scroll = new BetterScroll(this.$refs.orderDetail, {
+                click: true
+              });
+            } else {
+              this.scroll.refresh();
+            }
+            console.log(this.scroll);
+          });
         }
       });
+    },
+    computed: {
+      totalPrice() {
+        var totalP = 0;
+        for (let i = 0; i < this.orderItem.length; i++) {
+          totalP += this.orderItem[i].price * this.orderItem[1].count;
+        }
+        return totalP;
+      }
     }
   };
 </script>

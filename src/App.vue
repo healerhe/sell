@@ -58,7 +58,6 @@ export default {
 </script>
 
 <style>
-  /* @import "./common/stylus/mixin.styl"; */
 #app {
   position: relative;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -92,13 +91,5 @@ export default {
   width: 100%;
   height: 1px;
   background-color: rgba(7,17,27,0.1);
-}
-#app .footer{
-  position: absolute;
-  width: 100%;
-  height: 40px;
-  bottom: 0;
-  left: 0;
-  z-index: 0;
 }
 </style>

@@ -59,6 +59,7 @@
 
 <style lang="stylus" rel="stylesheet">
   @import "shopCart.styl";
+  @import "../../common/stylus/icons.styl"
 </style>
 <script>
   /* eslint-disable no-undef */
@@ -242,7 +243,7 @@
   var vm = new Vue({
     data() {
       return{
-        cshow: true,/* 判断购物车详情是否显示 */
+        cshow: true, /* 判断购物车详情是否显示 */
         carListScroll: null
       };
     },

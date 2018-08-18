@@ -1,8 +1,9 @@
 <template>
-    <div class="orders">
-      <orderheader :selectType="selectType" @increment="incrementType" :orders="orders"></orderheader>
-      <split></split>
-      <div class="orders-wrapper">
+    <div class="orders" ref="orders">
+      <div class="orders-content">
+        <orderheader :selectType="selectType" @increment="incrementType" :orders="orders"></orderheader>
+        <split></split>
+        <div class="orders-wrapper">
           <ul v-if="orders">
             <li v-for="order in ordersList" v-bind:key="order.index" class="order-item">
               <div class="avatar">
@@ -22,6 +23,7 @@
             </li>
           </ul>
         </div>
+      </div>
     </div>
 </template>
 
@@ -29,9 +31,10 @@
   @import "../../common/stylus/icons.styl"
   .orders
     position absolute
-    top 0
+    top 0px
+    bottom 0px
     left 0
-    width 100%
+    right 0
     overflow hidden
     .orders-wrapper
       background #fff
@@ -83,6 +86,7 @@
 <script>
   import split from 'components/split/split.vue';
   import orderheader from 'components/order/header/header.vue';
+  import BetterScroll from 'better-scroll';
 
   const SUCCESS = 0;
 /*  /!* 设置订单状态 *!/
@@ -112,6 +116,16 @@
         response = response.body;
         if (response.errno === SUCCESS) {
           this.orders = response.data;
+          this.$nextTick(() => {
+            if (!this.scroll) {
+              this.scroll = new BetterScroll(this.$refs.orders, {
+                click: true
+              });
+            } else {
+              this.scroll.refresh();
+            }
+            console.log(this.scroll);
+          });
         }
       });
     },
