@@ -1,11 +1,12 @@
 <template>
-    <div class="pay" ref="pay">
-      <div class="pay-content">
-        <div class="title">
+    <div class="pay">
+      <div class="pay-wrapper" ref="payWrapper">
+        <div class="pay-content">
+          <div class="title">
           <span class="icon-返回"></span>
           <h1 class="text">提交订单</h1>
         </div>
-        <ul class="address-wrapper">
+          <ul class="address-wrapper">
           <li class="address">
             <span class="title">收货地址：</span>
             <div class="choose">
@@ -31,7 +32,7 @@
             <div style="clear: both"></div>
           </li>
         </ul>
-        <div class="order-item-detail">
+          <div class="order-item-detail">
           <router-link to="/seller">
             <h2 class="seller-name">{{orderItem.sellername}}</h2>
             <span class="icon-keyboard_arrow_right"></span>
@@ -69,7 +70,7 @@
           </div>
           <div style="clear: both"></div>
         </div>
-        <div class="order-remark-wrapper">
+          <div class="order-remark-wrapper">
           <ul class="remark-ul">
             <li class="remark-item">
               <span class="title">订单备注</span>
@@ -97,92 +98,26 @@
             </li>
           </ul>
         </div>
-        <div class="submit-wrapper">
-          <div class="submit-left">
-            <div class="total-price">￥{{totalPrice}}</div>
-            <div class="line1px"></div>
-            <div class="specal-price">已优惠￥33.0</div>
-          </div>
-          <div class="submit-right">
-            <div class="confirm-pay">
-              确认支付
-            </div>
-          </div>
-        </div>
-        <transition name="fold">
-          <div class="back" v-show="payMethodState">
-            <div class="payMethod-wrapper">
-            <div class="title">
-              <h1 class="text">选择支付方式</h1>
-              <span class="icon-close" @click="payMethodShow"></span>
-              <div style="clear: both"></div>
-            </div>
-            <ul>
-              <li class="payMethod-item">
-                <div class="choose-title">
-                  <span class="icon-支付宝"></span>
-                  <span class="text">支付宝</span>
-                </div>
-                <span class="icon-check_circle" @click="selectPayMethod(0,$event)" :class="{'active':this.payMethod === 0}"></span>
-                <div style="clear: both"></div>
-              </li>
-              <li class="payMethod-item">
-                <div class="choose-title">
-                  <span class="icon-花呗"></span>
-                  <span class="text">花呗支付</span>
-                </div>
-                <span class="icon-check_circle" @click="selectPayMethod(2,$event)" :class="{'active':payMethod === 2}"></span>
-                <div style="clear: both"></div>
-              </li>
-              <li class="payMethod-item">
-                <div class="choose-title">
-                  <span class="icon-银行卡"></span>
-                  <span class="text">银行卡支付</span>
-                </div>
-                <span class="icon-check_circle" @click="selectPayMethod(3,$event)" :class="{'active':payMethod === 3}"></span>
-                <div style="clear: both"></div>
-              </li>
-              <li class="payMethod-item">
-                <div class="choose-title">
-                  <span class="icon-微信"></span>
-                  <span class="text">微信支付</span>
-                </div>
-                <span class="icon-check_circle" @click="selectPayMethod(1,$event)" :class="{'active':payMethod === 1}"></span>
-                <div style="clear: both"></div>
-              </li>
-              <li class="payMethod-item">
-                <div class="choose-title">
-                <span class="icon-qq钱包">
-                  <span class="path1"></span>
-                  <span class="path2"></span>
-                  <span class="path3"></span>
-                  <span class="path4"></span>
-                  <span class="path5"></span>
-                  <span class="path6"></span>
-                </span>
-                  <span class="text">qq钱包</span>
-                </div>
-                <span class="icon-check_circle" @click="selectPayMethod(4,$event)" :class="{'active':payMethod === 4}"></span>
-                <div style="clear: both"> </div>
-              </li>
-            </ul>
-          </div>
-          </div>
-        </transition>
-        <transition name="fold">
+            <transition name="fold">
           <div class=""></div>
         </transition>
+        </div>
       </div>
+      <submitOrder :orderItem="orderItem" :totalPrice="totalPrice"></submitOrder>
+      <payMethod :payMethod="payMethod" :payMethodState="payMethodState" @increment1="incrementM1"
+      @increment2="incrementM2"></payMethod>
     </div>
 </template>
 
 <style lang="stylus" rel="stylesheet">
   @import "pay.styl"
-  @import "../../common/stylus/icons.styl"
+  /* @import "../../common/stylus/icons.styl" */
 </style>
 
 <script>
   import BetterScroll from 'better-scroll';
+  import submitOrder from 'components/submitOrder/submitOrder';
+  import payMethod from 'components/payMethod/payMethod';
   const SUCCESS = 0;
   export default{
     data () {
@@ -204,18 +139,6 @@
         }
       };
     },
-    methods: {
-      selectPayMethod(payMethod, event) {
-        if (!event._constructed) { // 去掉自带的click事件点击，即pc端直接返回
-          return;
-        }
-        this.payMethod = payMethod;
-        this.payMethodState = false;
-      },
-      payMethodShow() {
-        this.payMethodState = !this.payMethodState;
-      }
-    },
     created() {
       /* 初始化 */
       this.payMethod = 0;
@@ -229,7 +152,7 @@
           this.orderItem = response.data[0];
           this.$nextTick(() => {
             if (!this.scroll) {
-             this.scroll = new BetterScroll(this.$refs.pay, {
+             this.scroll = new BetterScroll(this.$refs.payWrapper, {
              click: true
              });
              } else {
@@ -241,6 +164,8 @@
       });
     },
     components: {
+      submitOrder,
+      payMethod
     },
     computed: {
       totalPrice() {
@@ -249,6 +174,19 @@
           totalP += this.orderItem[i].price * this.orderItem[1].count;
         }
         return totalP;
+      }
+    },
+    methods: {
+      incrementM1(payMethod, payMethodState) {
+        this.payMethod = payMethod;
+        this.payMethodState = payMethodState;
+        console.log(this.payMethod + '' + this.payMethodState);
+      },
+      incrementM2(payMethodState) {
+        this.payMethodState = payMethodState;
+      },
+      payMethodShow() {
+        this.payMethodState = !this.payMethodState;
       }
     }
   };

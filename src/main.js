@@ -11,13 +11,7 @@ import 'jquery-weui/dist/js/fastclick.js';
 import 'jquery-weui/dist/js/zepto.js';
 import 'jquery-weui/dist/css/jquery-weui.css';
 import 'weui/dist/style/demos.css';
-import 'weui/dist/style/weui.min.css';
-import './common/stylus/sameStylus.styl';
-import './common/stylus/icons.styl';
-import './common/fonts/icomoon.eot';
-import './common/fonts/icomoon.svg';
-import './common/fonts/icomoon.ttf';
-import './common/fonts/icomoon.woff';
+/* import 'weui/dist/style/weui.min.css'; */
 /* 引入路由的js文件 */
 import router from './router/index';
 // 注册VueResource

@@ -5,7 +5,7 @@ import VueRouter from 'vue-router';
 import goods from 'components/goods/goods.vue';
 import ratings from 'components/ratings/ratings.vue';
 import seller from 'components/seller/seller.vue';
-import order from 'components/order/Order.vue';
+ import order from 'components/order/Order.vue';
 /* import orderDetail from 'components/orderDetail/orderDetail.vue'; */
 import pay from 'components/pay/pay.vue';
 

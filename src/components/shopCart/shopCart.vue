@@ -59,7 +59,7 @@
 
 <style lang="stylus" rel="stylesheet">
   @import "shopCart.styl";
-  @import "../../common/stylus/icons.styl"
+ /* @import "../../common/stylus/icons.styl" */
 </style>
 <script>
   /* eslint-disable no-undef */

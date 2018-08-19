@@ -28,7 +28,7 @@
 </template>
 
 <style lang="stylus" rel="stylesheet">
-  @import "../../common/stylus/icons.styl"
+  /* @import "../../common/stylus/icons.styl" */
   .orders
     position absolute
     top 0px
@@ -100,7 +100,11 @@
     data () {
       return {
         orders: {
-          type: Object
+          type: Object,
+        },
+        selectType: {
+          type: Number,
+          default: ALL
         }
       };
     },
@@ -110,6 +114,7 @@
     },
     created() {
 //      0:待付款，1：待使用（已付款），2：待评价，3：已完成，4：退款、售后
+      this.selectType = ALL;
       this.classMap = ['待付款', '待使用', '待评价', '已完成', '退款/售后 '];
       this.operationMap = ['去支付', '去使用', '去评价', '再来一单', '查看详情'];
       this.$http.get('/api/orders').then((response) => {
@@ -148,10 +153,6 @@
       }
     },
     props: {
-      selectType: {
-        type: Number,
-        default: ALL
-      },
       desc: {
         type: Object,
         default() {

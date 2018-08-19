@@ -32,7 +32,7 @@
 
 <style lang="stylus" rel="stylesheet">
   @import "header.styl"
-  @import "../../../common/stylus/icons.styl"
+  /* @import "../../../common/stylus/icons.styl" */
 </style>
 
 <script>
@@ -47,6 +47,13 @@
   export default{
     data () {
       return {
+        ordersTmp: {
+          type: Object
+        },
+        seTypeTmp: {
+          type: Number,
+          default: ALL
+        }
       };
     },
     props: {
@@ -55,18 +62,18 @@
         default: ALL
       },
       orders: {
-        type: Object
+        type: Object,
       }
     },
     created() {
-      console.log(this.selectType);
+      this.seTypeTmp = this.selectType;
+      this.ordersTmp = this.orders;
     },
     methods: {
       select(selectType, event) {
         if (!event._constructed) { // 去掉自带的click事件点击，即pc端直接返回
           return;
         }
-        this.selectType = selectType;
         this.$emit('increment', selectType);
       },
       orderTypeList(statetype) {
