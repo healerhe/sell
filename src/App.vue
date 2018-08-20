@@ -40,11 +40,19 @@ export default {
     };
   },
   created() {
-    this.$http.get('/api/seller').then((response) => {
+    this.$http.get('http://bread.s1.natapp.cc/sell/autho/code', {params: {'scope': 'snsapi_base'}}, {
+      'emulateJSON': false}).then((response) => {
       response = response.body;
+      var url = response.codeGetUrl;
+      this.$http.get(url).then((response) => {
+        console.log('成功');
+      }, function () {
+      });
       if (response.errno === SUCCESS) {
         this.seller = response.data;
-        }
+      }
+    }, function () {
+      console.log('失败');
     });
   },
   name: 'App',

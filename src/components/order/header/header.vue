@@ -10,20 +10,20 @@
           <span class="icon-待付款 icons" :class="{'active':selectType===0}"></span><br>
           <span class="text">待付款{{payment.length}}</span>
         </div>
-        <div class="navbar_item" @click="select(1,$event)">
-          <span class="icon-待使用抵扣券 icons" :class="{'active':selectType===1}"></span><br>
-          <span class="text">待使用{{toUse.length}}</span>
-        </div>
-        <div class="navbar_item" @click="select(2,$event)">
-          <span class="icon-待评价 icons" :class="{'active':selectType===2}"></span><br>
+        <!-- <div class="navbar_item" @click="select(4,$event)">-->
+          <!--<span class="icon-待使用抵扣券 icons" :class="{'active':selectType===4}"></span><br>-->
+          <!--<span class="text">待使用{{toUse.length}}</span>-->
+        <!--</div> -->
+        <div class="navbar_item" @click="select(3,$event)">
+          <span class="icon-待评价 icons" :class="{'active':selectType===3}"></span><br>
           <span class="text">待评价{{toEvaluated.length}}</span>
         </div>
-        <div class="navbar_item" @click="select(3,$event)">
-          <span class="icon-退款，售后 icons" :class="{'active':selectType===3}"></span><br>
-          <span class="text">退款/售后{{refund.length}}</span>
-        </div>
-        <div class="navbar_item" @click="select(4,$event)">
-          <span class="icon-已完成 icons" :class="{'active':selectType===4}"></span><br>
+        <!-- <div class="navbar_item" @click="select(3,$event)">-->
+          <!--<span class="icon-退款，售后 icons" :class="{'active':selectType===3}"></span><br>-->
+          <!--<span class="text">退款/售后{{refund.length}}</span>-->
+        <!--</div> -->
+        <div class="navbar_item" @click="select(1,$event)">
+          <span class="icon-已完成 icons" :class="{'active':selectType===1}"></span><br>
           <span class="text">已完成{{completed.length}}</span>
         </div>
       </div>
@@ -39,10 +39,10 @@
   import Vue from 'vue';
   /* 设置订单状态 */
   const PAYMENT = 0; // 0:待付款
-  const TOUSE = 1; // 1：待使用（已付款）
-  const TOEVALUATED = 2; // 2：待评价
-  const COMPLETED = 3; // 3：已完成
-  const REFUND = 4; // 4：退款、售后
+/*  const TOUSE = 4; // 4：待使用（已付款） */
+  const TOEVALUATED = 3; // 3：待评价
+  const COMPLETED = 1; // 1：已完成
+  /* const REFUND = 4; // 4：退款、售后 */
   const ALL = 5; // 5:全部订单
   export default{
     data () {
@@ -62,7 +62,6 @@
         default: ALL
       },
       orders: {
-        type: Object,
       }
     },
     created() {
@@ -74,6 +73,7 @@
         if (!event._constructed) { // 去掉自带的click事件点击，即pc端直接返回
           return;
         }
+        console.log(selectType);
         this.$emit('increment', selectType);
       },
       orderTypeList(statetype) {
@@ -82,7 +82,7 @@
         }
         let listArray = [];
         for (let i = 0; i < this.orders.length; i++) {
-          if (this.orders[i].orderState === statetype) {
+          if (this.orders[i].orderStatus === statetype) {
             listArray.push(this.orders[i]);
           }
         }
@@ -94,18 +94,18 @@
       payment() {
         return this.orderTypeList(PAYMENT);
       },
-      toUse() {
+     /* toUse() {
         return this.orderTypeList(TOUSE);
-      },
+      }, */
       toEvaluated() {
         return this.orderTypeList(TOEVALUATED);
       },
       completed() {
         return this.orderTypeList(COMPLETED);
       },
-      refund() {
+      /* refund() {
         return this.orderTypeList(REFUND);
-      },
+      }, */
       all() {
         return this.orderTypeList(ALL);
       }

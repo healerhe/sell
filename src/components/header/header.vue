@@ -147,8 +147,8 @@
             vertical-align top
             font-size 10px
           .icon
+            vertical-align top
             font-size 10px
-            margin-left 4px
             line-height 24px
     .bulletin-wrapper
       position relative

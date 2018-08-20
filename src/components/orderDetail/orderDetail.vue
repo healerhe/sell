@@ -24,6 +24,9 @@
                     <span class="new">￥{{item.price}}</span>
                     <span v-show="item.oldPrice" class="old">￥{{item.oldPrice}}</span>
                   </div>
+                  <div class="paystate">
+                    已退款
+                  </div>
                 </div>
               </li>
             </ul>
@@ -93,17 +96,23 @@
       return {
         orderItem: {
           type: Object
-        }
+        },
+        orderId: {}
       };
     },
     components: {
       split
     },
     created() {
-//      0:待付款，1：待使用（已付款），2：待评价，3：已完成，4：退款、售后
-      this.classMap = ['待付款', '待使用', '待评价', '已完成', '退款/售后 '];
-      this.operationMap = ['去支付', '去使用', '去评价', '再来一单', '查看详情'];
-      this.$http.get('/api/orders').then((response) => {
+//      0:待付款，3：待评价，1：已完成，4：待使用 , 2：已取消
+      this.classMap = ['待付款', '已完成', '已取消', '待评价'];
+      this.operationMap = ['去支付', '再来一单', '订单已取消', '去评价'];
+      // 3:退款中， 2：已退款
+      this.payMap = ['', '', '已退款', '退款中'];
+      this.orderId = this.$route.params.orderId;
+      console.log(this.orderId);
+   /*   this.$http.post('http://bread.s1.natapp.cc/sell/order/orderlist', {'orderId': this.orderId}, {
+        'emulateJSON': false}).then((response) => {
         response = response.body;
         if (response.errno === SUCCESS) {
           this.orderItem = response.data[0];
@@ -118,6 +127,44 @@
             console.log(this.scroll);
           });
         }
+      }); */
+      this.$http.post('http://bread.s1.natapp.cc/sell/order/admin/ordersave', {'buyer_name': '冯利',
+        'buyer_phone': '18428325555',
+        'buyer_address': '20号桌',
+        'buyer_openid': '1',
+        'order_amount': '48.55',
+        'foods': [{
+          'product_id': '1',
+          'name': '干锅里脊',
+          'price': '50',
+          'quantity': '1',
+          'icon': 'http://xxx.com'
+        },
+          {
+            'product_id': '2',
+            'name': '干锅牛蛙',
+            'price': '100',
+            'quantity': '2',
+            'icon': 'http://xxx.com'
+          }]
+      }, {
+        'emulateJSON': false}).then((response) => {
+        response = response.body;
+        if (response.errno === SUCCESS) {
+          this.orderItem = response.data[0];
+          this.$nextTick(() => {
+            if (!this.scroll) {
+              this.scroll = new BetterScroll(this.$refs.orderDetail, {
+                click: true
+              });
+            } else {
+              this.scroll.refresh();
+            }
+            console.log(this.scroll);
+          });
+        }
+      }, function () {
+        console.log(1111);
       });
     },
     computed: {

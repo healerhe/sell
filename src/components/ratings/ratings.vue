@@ -29,23 +29,23 @@
             <ul>
               <li v-for="rating in ratings" v-bind:key="rating.index" class="rating-item">
                 <div class="avatar">
-                  <img :src="rating.avatar" width="28" height="28"/>
+                  <img :src="rating.headImg" width="28" height="28"/>
                 </div>
                 <div class="content">
-                  <h1 class="name">{{rating.username}}</h1>
+                  <h1 class="name">{{rating.nickName}}</h1>
                   <div class="star-wrapper">
                     <star :size="24" :score:="5" class="star"></star>
                     <span class="delivery-time">40分钟</span>
                   </div>
-                  <p class="text">{{rating.text}}</p>
-                  <div class="recommend" v-show="rating.recommend">
+                  <p class="text">{{rating.comment}}</p>
+                  <div class="recommend" v-show="rating.recommend" style="display: none">
                     <span class="icon-thumb_up"></span>
                     <span v-for="item in rating.recommend" v-bind:key="item.index" class="recommend-item">
                       <span class="text">{{item}}</span>
                     </span>
                   </div>
                   <div class="time">
-                    {{rating.rateTime}}
+                    {{rating.updateTime}}
                   </div>
                 </div>
               </li>
@@ -63,7 +63,7 @@
   import BetterScroll from 'better-scroll';
   import star from 'components/star/star.vue';
   import split from 'components/split/split.vue';
-  const SUCCESS = 0;
+   const SUCCESS = 1;
   export default{
     data () {
       return {
@@ -78,14 +78,18 @@
       BetterScroll
     },
     created() {
-      this.$http.get('/api/ratings').then((response) => {
+      this.$http.get('http://bread.s1.natapp.cc/sell/remark/remarklist').then((response) => {
         response = response.body;
-        if (response.errno === SUCCESS) {
-          this.ratings = response.data;
-          this.$nextTick(() => {
-            this.initBetterScroll();
-          });
-        };
+       if (response.mcode === SUCCESS) {
+           this.ratings = response.remarkList;
+           this.$nextTick(() => {
+           this.initBetterScroll();
+           });
+       };
+        // 请求成功回调
+      }, (response) => {
+        console.log(222 + ' ' + response);
+        // 请求失败回调
       });
     },
     methods: {
