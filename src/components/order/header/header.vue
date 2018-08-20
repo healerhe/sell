@@ -62,7 +62,6 @@
         default: ALL
       },
       orders: {
-        type: Object,
       }
     },
     created() {

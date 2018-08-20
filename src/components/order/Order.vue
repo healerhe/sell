@@ -100,7 +100,7 @@
     data () {
       return {
         orders: {
-          type: Object,
+          type: Object
         },
         selectType: {
           type: Number,

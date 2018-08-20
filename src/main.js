@@ -6,11 +6,11 @@ import App from './App';
 import VueResource from 'vue-resource';
 /* 导入外部css,js */
 /* import 'jquery-weui/dist/js/jquery-weui.js'; */
-import 'jquery-weui/dist/js/jquery-2.1.4.js';
-import 'jquery-weui/dist/js/fastclick.js';
-import 'jquery-weui/dist/js/zepto.js';
-import 'jquery-weui/dist/css/jquery-weui.css';
-import 'weui/dist/style/demos.css';
+// import 'jquery-weui/dist/js/jquery-2.1.4.js';
+// import 'jquery-weui/dist/js/fastclick.js';
+// import 'jquery-weui/dist/js/zepto.js';
+// import 'jquery-weui/dist/css/jquery-weui.css';
+// import 'weui/dist/style/demos.css';
 /* import 'weui/dist/style/weui.min.css'; */
 /* 引入路由的js文件 */
 import router from './router/index';
