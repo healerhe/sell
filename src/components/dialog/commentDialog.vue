@@ -56,6 +56,7 @@
 </style>
 
 <script>
+  import Vue from 'vue';
   const SUCCESS = 1;
   export default{
     data () {
@@ -64,7 +65,8 @@
         },
         comment: {
           default: '123'
-        }
+        },
+        userInfo: {}
       };
     },
     props: {
@@ -73,25 +75,69 @@
       commentState: { // 是否打开评论窗口
         type: Boolean,
         default: false
-      }
+      },
+      openid: {},
+      headImg: {},
+      nickName: {}
     },
     created() {
       this.comment = '';
       this.stateTmp = this.commentState;
       console.log('orderId:' + this.orderId);
       console.log('commentState:' + this.commentState);
+      this.$http.post('http://bread.s1.natapp.cc/sell/order/baseuserinfo', {'openid': this.openid}, {
+        'emulateJSON': false}).then((response) => {
+        response = response.body;
+        console.log(response);
+        if (response.mcode === SUCCESS) {
+          Vue.set(this.userInfo, 'nickName', this.nickName);
+          Vue.set(this.userInfo, 'phone', response.phone);
+          Vue.set(this.userInfo, 'address', response.address);
+          Vue.set(this.userInfo, 'headImg', this.headImg);
+        }
+      }, (response) => {
+        console.log('失败');
+        // 请求失败回调
+      });
     },
     methods: {
       confirm() {
-        var userinfo = {'nickName': 'cc', 'headImg': 'cc', 'phone': 'cc', 'name': 'cc'};
-        this.$http.post('http://bread.s1.natapp.cc/sell/remark/add', {'userInfo': userinfo, 'orderId': this.orderId, 'comment': this.comment}, {
+        console.log(this.headImg);
+        this.$http.post('http://bread.s1.natapp.cc/sell/remark/add', {'userInfo': this.userInfo, 'orderId': this.orderId, 'comment': this.comment}, {
           'emulateJSON': false}).then((response) => {
           response = response.body;
+          console.log(response);
+          this.stateTmp = false;
+          this.$emit('increment', this.stateTmp);
           if (response.mcode === SUCCESS) {
-            this.stateTmp = false;
-            this.$emit('increment', this.stateTmp);
+            this.$toast({
+              title: '消息提示',
+              content: '评论成功',
+              type: 'success',
+              onShow: () => {
+                console.log('on toast show');
+              },
+              onHide: () => {
+                console.log('hide toast show');
+                setInterval(this.$router.go(0), 3000);
+                /* this.$router.push({path: '/order', query: {openid: this.openid, deskNo: this.deskNo, headImg: this.headImg, nickName: this.nickName}});
+              */ }
+            });
           } else {
-            alert('评论失败');
+            this.$toast({
+              title: '消息提示',
+              content: '评论失败',
+              type: 'warning',
+              onShow: () => {
+                console.log('on toast show');
+              },
+              onHide: () => {
+                console.log('hide toast show');
+                setInterval(this.$router.go(0), 3000);
+              /*  this.$router.push({path: '/order',
+                  query: {openid: this.openid, deskNo: this.deskNo, headImg: this.headImg, nickName: this.nickName}});
+              */ }
+            });
           }
         }, (response) => {
           console.log(222 + ' ' + response);
@@ -102,6 +148,11 @@
         this.stateTmp = false;
         this.$emit('increment', this.stateTmp);
       }
+    },
+    watch: {
+       '$route' (to, from) {
+          this.$router.go(0);
+       }
     }
   };
 </script>

@@ -2,10 +2,10 @@
     <div class="goods">
       <div class="menu-wrapper" ref="menuWrapper" style="background:#f3f5f7">
         <ul>
-          <li v-for="(item, index) in goods" v-bind:key="item.index" class="menu-item"
-            :class="{'current':currentIndex === index}" @click = "selectMenu(index,$event)">
+          <li v-for="(item, index) in goods" v-bind:key="item.index" class="menu-item menuItemHook"
+            :class="{'current':currentTmpIndex === index}" @click = "selectMenu(index,$event)">
               <span class="text">
-                <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
+                <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.categoryName}}
               </span>
           </li>
         </ul>
@@ -13,17 +13,17 @@
       <div class="foods-wrapper" ref="foodsWrapper">
         <ul>
           <li v-for="item in goods" class="foodList foodListHook" v-bind:key="item.index">
-            <h1 class="title">{{item.name}}</h1>
+            <h1 class="title">{{item.categoryName}}</h1>
             <ul>
               <li v-for="food in item.foods" class="food-item" v-bind:key="food.index" >
                 <div class="icon">
-                  <img width="57" :src="food.icon"/>
+                  <img width="57" :src="food.productIcon"/>
                 </div>
                 <div class="content">
                   <h2 class="name">{{food.name}}</h2>
                   <p class="desc">{{food.description}}</p>
                   <div class="extra">
-                    <span>月售{{food.sellCount}}</span><span class="count">好评率{{food.rating}}%</span>
+                    <span>库存{{food.productStock}}</span><span class="count">好评率{{food.rating}}%</span>
                   </div>
                   <div class="price">
                     <span class="new">￥{{food.price}}</span>
@@ -38,7 +38,7 @@
           </li>
         </ul>
       </div>
-      <shopCart :select-products="selectProducts" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ref="shopCart"></shopCart>
+      <shopCart :select-products="selectProducts" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ref="shopCart" :deskNo="deskNo" :openid="openid"></shopCart>
     </div>
 </template>
 
@@ -50,7 +50,7 @@
   import BetterScroll from 'better-scroll';
   import shopCart from 'components/shopCart/shopCart';
   import cartAdd from 'components/cartAdd/cartAdd';
-  const SUCCESS = 0;
+  const SUCCESS = 1;
   export default{
     data () {
       return {
@@ -58,15 +58,19 @@
         classMap: [],
         listHeight: [],
         /* 用于跟踪屏幕高度变化的当前值 */
-        scrollY: 0
+        scrollY: 0,
+        currentTmpIndex: 0
       };
     },
     computed: {
-      /* 用于计算当前索引值，以为就是scrollY的高度对应的右边食物的第几组的索引 */
+    /*   /!* 用于计算当前索引值，以为就是scrollY的高度对应的右边食物的第几组的索引 *!/
       currentIndex () {
         for (let i = 0; i < this.listHeight.length; i++) {
           let heightUp = this.listHeight[i]; // 当前menu子块的高度
           let heightDown = this.listHeight[i + 1]; // 下一个menu子块的高度
+          console.log('heightUp' + heightUp);
+          console.log('heightDown' + heightDown);
+          console.log('this.scrollY' + this.scrollY);
           // 滚动到底部的时候,height2为undefined,需要考虑这种情况
           // 需要确定是在两个menu子块的高度区间
           if (!heightDown || (this.scrollY >= heightUp && this.scrollY < heightDown)) {
@@ -74,31 +78,33 @@
           }
         }
         return 0;
-      },
+      }, */
       selectProducts() { // 自动将所有的goods.food添加一个count属性,方便做数量运算
         let foods = [];
-        this.goods.forEach((good) => {
-          good.foods.forEach((food) => {
-            if (food.count) {
-              foods.push(food);
+        for (let i = 0; i < this.goods.length; i++) {
+          for (let j = 0; j < this.goods[i].foods.length; j++) {
+            if (this.goods[i].foods[j].quantity) {
+              foods.push(this.goods[i].foods[j]);
             }
-          });
-        });
+          }
+        }
         return foods;
       }
-
     },
     props: {
       seller: {
         type: Object
-      }
+      },
+      openid: {},
+      deskNo: {}
     },
     created() {
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-      this.$http.get('/api/goods').then((response) => {
+      this.$http.get('http://bread.s1.natapp.cc/sell/productinfo/itemlist').then((response) => {
         response = response.body;
-        if (response.errno === SUCCESS) {
-            this.goods = response.data;
+        console.log(response);
+        if (response.mcode === SUCCESS) {
+            this.goods = response.categoryList;
           /* Vue中数据更新是异步的，
            在数据还没有加载完之前，
            BScroll是无法获取目标内容容器的高度的，
@@ -107,13 +113,13 @@
             this.$nextTick(() => {
               if (!this.scroll) {
                 this.initBetterScroll();
+                this.calculateHeight();
               } else {
                 this.scroll.refresh();
               }
-
-              this.calculateHeight();
             });
         };
+      }, function () {
       });
     },
     methods: {
@@ -138,8 +144,9 @@
         });
         /* 监听scroll滚动时的高度将其赋值给scrollY */
         this.foodsScroll.on('scroll', (pos) => {
-          this.scrollY = Math.abs(Math.round(pos.y));
-          // 滚动坐标会出现负的,并且是小数,所以需要处理一下，实时取得scrollY
+           this.scrollY = Math.abs(Math.round(pos.y));
+          // 滚动坐标会出现负的,并且是小数,所以需要处理一下，实时取得scrollY */
+          /* this.scrolly = Math.abs(Math.round(pos.y)); */
         });
       },
       calculateHeight() {
@@ -159,6 +166,10 @@
         }
         let foodsList = this.$refs.foodsWrapper.getElementsByClassName('foodListHook');
         let el = foodsList[index];
+       /* if (index === this.goods.length - 1) {
+          this.currentIndex = index;
+        } */
+        this.currentTmpIndex = index;
         // 类似jump to的功能,通过这个方法,跳转到指定的dom
         this.foodsScroll.scrollToElement(el, 300);
       }
@@ -166,6 +177,30 @@
     components: {
       shopCart,
       cartAdd
+    },
+    watch: {
+      scrollY(newy) {
+        if (newy <= 0) {
+          this.currentTmpIndex = 0;
+        } else {
+          for (let i = 0; i < this.listHeight.length; i++) {
+            let heightUp = this.listHeight[i]; // 当前menu子块的高度
+            let heightDown = this.listHeight[i + 1]; // 下一个menu子块的高度
+            /* let heightBottom = this.listHeight[this.listHeight.length - 1];
+            let clientHeight = `${document.documentElement.clientHeight}`;
+            if (newy + heightBottom < clientHeight) {
+              this.currentTmpIndex = this.listHeight.length - 1;
+              return;
+            } */
+            // 滚动到底部的时候,height2为undefined,需要考虑这种情况
+            // 需要确定是在两个menu子块的高度区间
+            if (!heightDown || (newy >= heightUp && newy < heightDown)) {
+              this.currentTmpIndex = i;
+              return;
+            }
+          }
+        }
+      }
     }
   };
 </script>

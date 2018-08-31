@@ -11,7 +11,7 @@
             <ul>
               <li class="payMethod-item">
                 <div class="choose-title">
-                  <span class="icon-支付宝"></span>
+                  <span class="icon-zhifubao"></span>
                   <span class="text">支付宝</span>
                 </div>
                 <span class="icon-check_circle" @click="selectPayMethod1(0,$event)" :class="{'active':this.payMethod === 0}"></span>
@@ -19,7 +19,7 @@
               </li>
               <li class="payMethod-item">
                 <div class="choose-title">
-                  <span class="icon-花呗"></span>
+                  <span class="icon-huabei"></span>
                   <span class="text">花呗支付</span>
                 </div>
                 <span class="icon-check_circle" @click="selectPayMethod1(2,$event)" :class="{'active':payMethod === 2}"></span>
@@ -27,7 +27,7 @@
               </li>
               <li class="payMethod-item">
                 <div class="choose-title">
-                  <span class="icon-银行卡"></span>
+                  <span class="icon-yinghangka"></span>
                   <span class="text">银行卡支付</span>
                 </div>
                 <span class="icon-check_circle" @click="selectPayMethod1(3,$event)" :class="{'active':payMethod === 3}"></span>
@@ -35,7 +35,7 @@
               </li>
               <li class="payMethod-item">
                 <div class="choose-title">
-                  <span class="icon-微信"></span>
+                  <span class="icon-weixin"></span>
                   <span class="text">微信支付</span>
                 </div>
                 <span class="icon-check_circle" @click="selectPayMethod1(1,$event)" :class="{'active':payMethod === 1}"></span>
@@ -43,13 +43,7 @@
               </li>
               <li class="payMethod-item">
                 <div class="choose-title">
-                  <span class="icon-qq钱包">
-                  <span class="path1"></span>
-                  <span class="path2"></span>
-                  <span class="path3"></span>
-                  <span class="path4"></span>
-                  <span class="path5"></span>
-                  <span class="path6"></span>
+                  <span class="icon-qq">
                 </span>
                   <span class="text">qq钱包</span>
                 </div>
@@ -95,7 +89,7 @@
           line-height 14px
           display inline-block
           vertical-align top
-          .icon-支付宝, .icon-花呗, .icon-银行卡, .icon-微信, .icon-qq钱包
+          .icon-zhifubao, .icon-huabei, .icon-yinghangka, .icon-weixin, .icon-qq
             margin 0 4px
             font-size 14px
             line-height 14px

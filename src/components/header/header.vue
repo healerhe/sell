@@ -12,6 +12,7 @@
             <div class="description">
               {{seller.description}}/{{seller.deliveryTime}}分钟送达
             </div>
+            <div class="order" @click.stop="seeOrders">查看订单</div>
             <div v-if="seller.supports" class="supports">
               <span class="icon" :class="classMap[seller.supports[0].type]"></span>
               <span class="text">{{seller.supports[0].description}}</span>
@@ -109,6 +110,15 @@
           margin-bottom 10px
           line-height 12px
           font-size 12px
+        .order
+          position absolute
+          right 10px
+          top 10px
+          font-size 14px
+          line-height 14px
+          display inline-block
+          padding 8px
+          border 1px solid rgba(7,17,27,0.1);
         .supports
           .icon
             display inline-block
@@ -130,6 +140,7 @@
                 bg-image('special_1');
 
           .text
+            display inline-block
             line-height 12px
             font-size 10px
       .support_count
@@ -300,7 +311,9 @@ export default{
       immediate: true,
       seller: {
         type: Object
-      }
+      },
+      openid: {},
+      deskNo: {}
   },
   methods: {
     showDetail() {
@@ -308,9 +321,17 @@ export default{
     },
     closeDetail() {
       this.detailShow = false;
+    },
+    seeOrders() {
+      /* var headImg = 'http://static.galileo.xiaojukeji.com/static/tms/seller_avatar_256px.jpg';
+      var nickName = 'cc';
+      this.$router.push({path: '/order', query: {openid: this.openid, deskNo: this.deskNo, headImg: headImg, nickName: nickName}});
+      */
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9388cec512d7f8b7&redirect_uri=http://bread.s1.natapp.cc/sell/autho/userinfo&response_type=code&scope=snsapi_userinfo&state=STATE#http://bread.s1.natapp.cc/sell/autho/userinfo';
     }
   },
   created() {
+    console.log(this.openid);
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
   },
   components: {

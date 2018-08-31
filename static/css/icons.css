@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?q93r1v');
-  src:  url('../fonts/icomoon.eot?q93r1v#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?q93r1v') format('truetype'),
-    url('../fonts/icomoon.woff?q93r1v') format('woff'),
-    url('../fonts/icomoon.svg?q93r1v#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?e39mka');
+  src:  url('../fonts/icomoon.eot?e39mka#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?e39mka') format('truetype'),
+    url('../fonts/icomoon.woff?e39mka') format('woff'),
+    url('../fonts/icomoon.svg?e39mka#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,57 +24,64 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-add_circle:before {
-  content: "\e901";
-}
-.icon-arrow_lift:before {
-  content: "\e902";
-}
-.icon-check_circle:before {
-  content: "\e903";
-}
-.icon-close:before {
+.icon-huabei:before {
   content: "\e904";
 }
-.icon-favorite:before {
+.icon-huanbao:before {
   content: "\e905";
 }
-.icon-keyboard_arrow_right:before {
+.icon-qq:before {
   content: "\e906";
+  color: #db2921;
 }
-.icon-remove_circle_outline:before {
-  content: "\e907";
-}
-.icon-shopping_cart:before {
-  content: "\e908";
-}
-.icon-thumb_down:before {
-  content: "\e909";
-}
-.icon-thumb_up:before {
-  content: "\e90a";
-}
-.icon-待付款:before {
-  content: "\e90b";
-}
-.icon-待评价:before {
-  content: "\e90c";
-}
-.icon-待使用抵扣券:before {
-  content: "\e90d";
-}
-.icon-购物车:before {
-  content: "\e90e";
-}
-.icon-全部订单:before {
-  content: "\e90f";
-}
-.icon-退款，售后:before {
-  content: "\e910";
-}
-.icon-已完成2:before {
+.icon-weixin:before {
   content: "\e911";
 }
-.icon-已完成:before {
+.icon-yinghangka:before {
+  content: "\e912";
+}
+.icon-zhifubao:before {
+  content: "\e913";
+}
+.icon-pay:before {
   content: "\e900";
+}
+.icon-all:before {
+  content: "\e901";
+}
+.icon-Completed:before {
+  content: "\e902";
+}
+.icon-evaluated:before {
+  content: "\e903";
+}
+.icon-add_circle:before {
+  content: "\e907";
+}
+.icon-arrow_lift:before {
+  content: "\e908";
+}
+.icon-check_circle:before {
+  content: "\e909";
+}
+.icon-close:before {
+  content: "\e90a";
+}
+.icon-favorite:before {
+  content: "\e90b";
+}
+.icon-keyboard_arrow_right:before {
+  content: "\e90c";
+}
+.icon-remove_circle_outline:before {
+  content: "\e90d";
+}
+.icon-shopping_cart:before {
+  content: "\e90e";
+}
+.icon-thumb_down:before {
+  content: "\e90f";
+}
+.icon-thumb_up:before {
+  content: "\e910";
 }

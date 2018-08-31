@@ -14,6 +14,8 @@ import VueResource from 'vue-resource';
 /* import 'weui/dist/style/weui.min.css'; */
 /* 引入路由的js文件 */
 import router from './router/index';
+import toast from './components/toast/plugin';
+Vue.use(toast);
 // 注册VueResource
 Vue.use(VueResource);
 

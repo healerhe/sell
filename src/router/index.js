@@ -8,6 +8,7 @@ import seller from 'components/seller/seller.vue';
  import order from 'components/order/Order.vue';
  import orderDetail from 'components/orderDetail/orderDetail.vue';
 import pay from 'components/pay/pay.vue';
+import commentDialog from 'components/dialog/commentDialog';
 
 Vue.use(VueRouter);
 
@@ -20,9 +21,10 @@ const routes = [
   { path: '/goods', component: goods },
   {path: '/ratings', component: ratings},
   {path: '/seller', component: seller},
-  {path: '/order', component: order},
-  {path: '/pay', component: pay},
-  {path: '/orderDetail/:orderId', name: 'orderDetail', component: orderDetail},
+  {path: '/order', name: 'order', component: order},
+  {path: '/pay', name: 'pay', component: pay},
+  {path: '/orderDetail', name: 'orderDetail', component: orderDetail},
+  {path: '/commentDialog', name: 'commentDialog', component: commentDialog},
   // 重定向
   {path: '/', redirect: '/goods'}
 ];

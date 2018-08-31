@@ -1,13 +1,17 @@
 <template>
     <div class="order-header">
-      <div class="title">我的订单</div>
+      <div class="title">
+        <router-link :to="{path: '/goods', query: {openid: openid, deskNo: deskNo}}">
+          <span class="icon-arrow_lift"></span>
+        </router-link>
+        <span style="margin-left: 10px">我的订单</span></div>
       <div class="navbar">
         <div class="navbar_item" @click="select(5,$event)">
-          <span class="icon-全部订单 icons" :class="{'active':selectType===5}"></span><br>
+          <span class="icon-all icons" :class="{'active':selectType===5}"></span><br>
           <span class="text">全部订单{{all.length}}</span>
         </div>
         <div class="navbar_item" @click="select(0,$event)">
-          <span class="icon-待付款 icons" :class="{'active':selectType===0}"></span><br>
+          <span class="icon-pay icons" :class="{'active':selectType===0}"></span><br>
           <span class="text">待付款{{payment.length}}</span>
         </div>
         <!-- <div class="navbar_item" @click="select(4,$event)">-->
@@ -15,7 +19,7 @@
           <!--<span class="text">待使用{{toUse.length}}</span>-->
         <!--</div> -->
         <div class="navbar_item" @click="select(3,$event)">
-          <span class="icon-待评价 icons" :class="{'active':selectType===3}"></span><br>
+          <span class="icon-evaluated icons" :class="{'active':selectType===3}"></span><br>
           <span class="text">待评价{{toEvaluated.length}}</span>
         </div>
         <!-- <div class="navbar_item" @click="select(3,$event)">-->
@@ -23,7 +27,7 @@
           <!--<span class="text">退款/售后{{refund.length}}</span>-->
         <!--</div> -->
         <div class="navbar_item" @click="select(1,$event)">
-          <span class="icon-已完成 icons" :class="{'active':selectType===1}"></span><br>
+          <span class="icon-Completed icons" :class="{'active':selectType===1}"></span><br>
           <span class="text">已完成{{completed.length}}</span>
         </div>
       </div>
@@ -62,11 +66,15 @@
         default: ALL
       },
       orders: {
-      }
+      },
+      deskNo: {},
+      openid: {}
     },
     created() {
       this.seTypeTmp = this.selectType;
       this.ordersTmp = this.orders;
+      console.log(this.openid);
+      console.log(this.deskNo);
     },
     methods: {
       select(selectType, event) {

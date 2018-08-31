@@ -1,11 +1,11 @@
 <template>
     <div class="cartAdd">
       <transition name="move">
-      <div class="decrease" v-show="food.count>0"  @click="decrease">
+      <div class="decrease" v-show="food.quantity>0"  @click="decrease">
         <span class="inner icon-remove_circle_outline"></span>
       </div>
       </transition>
-      <div class="count" v-show="food.count>0">{{food.count}}</div>
+      <div class="count" v-show="food.quantity>0">{{food.quantity}}</div>
       <div class="add" @click="add">
         <span class="icon-add_circle"></span>
       </div>
@@ -33,10 +33,10 @@
         if (!event._constructed) { // 去掉自带的click事件点击，即pc端直接返回
           return;
         }
-          if (!this.food.count) {
-            Vue.set(this.food, 'count', 1);
+          if (!this.food.quantity) {
+            Vue.set(this.food, 'quantity', 1);
           } else {
-            this.food.count++;
+            this.food.quantity++;
           }
         this.$emit('increment', event.target);
       },
@@ -44,7 +44,7 @@
         if (!event._constructed) { // 去掉自带的click事件点击，即pc端直接返回
           return;
         }
-        this.food.count--;
+        this.food.quantity--;
       }
     }
   };

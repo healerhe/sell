@@ -13,9 +13,12 @@
           <div class="distribution_fee">另需配送费￥{{deliveryPrice}}</div>
         </div>
         <div class="content-right">
-          <div class="pay" :class="payClass" @click.stop.prevent="pay">
+          <!--<router-link :to="{name: 'pay',params: {selectProducts: selectProducts}}" class="order-link"> -->
+          <div class="jiesuan" :class="payClass" @click.stop.prevent="pay">
             {{deliverypay}}
-            </div>
+          </div>
+          <!--</router-link>-->
+          <div style="clear: both"></div>
         </div>
       </div>
       <div class="ball-container">
@@ -39,7 +42,7 @@
             <li v-for="food in selectProducts" v-bind:key="food.index" class="food">
               <span class="name">{{food.name}}</span>
               <div class="price">
-                <span class="text">￥{{food.price * food.count}}</span>
+                <span class="text">￥{{food.price * food.quantity}}</span>
               </div>
               <div class="cartAdd-wrapper">
                 <cartAdd :food="food"></cartAdd>
@@ -66,6 +69,7 @@
   import Vue from 'vue';
   import cartAdd from 'components/cartAdd/cartAdd';
   import BetterScroll from 'better-scroll';
+  const SUCCESS = 1;
   export default{
     data () {
       return {
@@ -86,7 +90,9 @@
             show: false
           }
         ],
-        dropBalls: []
+        dropBalls: [],
+        foodList: [],
+        orderid: []
       };
     },
     props: {
@@ -96,7 +102,7 @@
           return [
             {
               price: 10,
-              count: 2
+              quantity: 2
             }
           ];
         }
@@ -108,20 +114,25 @@
       minPrice: {
         type: Number,
         default: 0
-      }
+      },
+      openid: {},
+      deskNo: {}
     },
     computed: {
       totalPrice() {
         var totalP = 0;
         this.selectProducts.forEach((food) => {
-          totalP += food.price * food.count;
+          totalP += food.price * food.quantity;
         });
-        return totalP;
+        let realVal = Number(totalP).toFixed(2);
+        // num.toFixed(2)获取的是字符串
+        console.log('totalP' + Number(realVal));
+        return Number(realVal);
       },
       totalCount() {
         var totalC = 0;
         this.selectProducts.forEach((food) => {
-          totalC += food.count;
+          totalC += food.quantity;
         });
         return totalC;
       },
@@ -163,6 +174,27 @@
       }
     },
     methods: {
+      submitOrder() {
+        console.log(this.selectProducts);
+        this.$http.post('http://bread.s1.natapp.cc/sell/order/ordersave',
+          {'buyer_name': null,
+            'buyer_phone': null,
+            'buyer_address': null,
+            'buyer_openid': this.openid,
+            'order_amount': this.totalPrice,
+            'foods': this.selectProducts
+          }, {
+            'emulateJSON': false}).then((response) => {
+          response = response.body;
+          if (response.mcode === SUCCESS) {
+            this.orderid = response.orderId;
+            console.log(this.orderid);
+            this.$router.push({path: '/pay', query: {orderId: this.orderid, openid: this.openid, deskNo: this.deskNo}});
+          }
+        }, function () {
+          console.log(1111);
+        });
+      },
       drop(el) {
         for (let i = 0; i < this.balls.length; i++) {
           let ball = this.balls[i];
@@ -221,17 +253,19 @@
           return;
         }
         this.selectProducts.forEach((food) => {
-          food.count = 0
+          food.quantity = 0
         })
       },
       hideList() {
         vm.cshow = true;
       },
       pay() {
-        if (this.totalPrice < this.minPrice){
+        if (this.totalPrice < this.minPrice|| this.selectProducts == null || this.totalPrice == 0 || this.totalCount == 0){
+          alert('请选择商品');
           return;
         } else {
-          window.alert( `支付${this.totalPrice}元`);
+          // ,{name: 'pay',params: {selectProducts: this.selectProducts, openid: this.openid, deskNo: this.deskNo}}
+          this.submitOrder();
         }
       }
     },
